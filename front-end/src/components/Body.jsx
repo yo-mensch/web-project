@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Calendar from "react-calendar";
-import 'react-calendar/dist/Calendar.css';
+import dotenv from 'dotenv';
 
 function Body(){
+  dotenv.config();
   const [token, setToken] = useState(null);
   useEffect(() => {
     const fetchToken = async () => {
@@ -10,8 +10,8 @@ function Body(){
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-XAPP-Client-ID': 'YOUR_CLIENT_ID',
-          'X-XAPP-Client-Secret': 'YOUR_CLIENT_SECRET',
+          'X-XAPP-Client-ID': process.env.local.X-XAPP-Client-ID,
+          'X-XAPP-Client-Secret': process.env.local.X-XAPP-Client-Secret,
         },
         body: JSON.stringify({}),
       });
