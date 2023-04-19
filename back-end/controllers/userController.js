@@ -1,10 +1,30 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 const User = require('../db/userSchema');
+const SHA256 = require("crypto-js/sha256");
+
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/login', async(req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user || SHA256(password) !== user.password) {
+      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+    res.cookie('token', token, { httpOnly: true });
+    res.json({ success: true });
+
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
 
 app.get('/', async (req, res) => {
   try {
@@ -43,6 +63,7 @@ app.post('/', async (req, res) => {
 
 app.put('/:id', async (req, res) => {
   try {
+    jwt.verify(req.cookies.token, process.env.JWT_SECRET_KEY);
     const updatedUser = await User.findByIdAndUpdate(req.params._id, req.body, { new: true });
     res.json(updatedUser);
   } catch (err) {
