@@ -13,16 +13,27 @@ app.post('/login', async(req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
-    if (!user || SHA256(password) !== user.password) {
+    if (!user || String(SHA256(password)) !== user.password) {
       return res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
-    res.cookie('token', token, { httpOnly: true });
+    const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, { expiresIn: '15m' });
+    res.cookie('token', token, { httpOnly: true, domain: 'http://localhost:3000' });
     res.json({ success: true });
 
   } catch (err) {
+    console.log(process.env.JWT_SECRET_KEY);
+    console.log(err);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
+
+app.post('/logout', (req, res) => {
+  try {
+    res.clearCookie('token');
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
   }
 });
 
