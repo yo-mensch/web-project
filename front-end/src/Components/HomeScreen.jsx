@@ -1,5 +1,6 @@
 import React from "react";
 import Button from '@mui/material/Button';
+import BookmarksGrid from "./BookmarksGrid";
 
 function HomeScreen({onLogout}){
     const handleLogout = async(e) => {
@@ -17,7 +18,8 @@ function HomeScreen({onLogout}){
 
     return(
         <>
-            <h1>You are logged in</h1>
+            <h1>Bookmarker</h1>
+            <BookmarksGrid/>
             <Button variant="contained" type="submit" onClick={handleLogout}>
                 Log out
             </Button>

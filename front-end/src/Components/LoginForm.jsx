@@ -20,6 +20,7 @@ function LoginForm( {onLogin}) {
       const data = await response.json();
       if(response.ok){
         console.log("logging in successful");
+        localStorage.setItem('token', data.token);
         onLogin();
       }
     } catch (error) {
@@ -27,13 +28,14 @@ function LoginForm( {onLogin}) {
     }
   }
 
-  const handleLogout = async(e) =>{
+  const handleLogout = async (e) => {
     e.preventDefault();
     try {
+      localStorage.removeItem('token');
       const response = await fetch('http://localhost:3003/users/logout', {
         method: 'POST'
       })
-      if(response.ok){
+      if (response.ok) {
         console.log("Logout successful");
       } else {
         console.log("Logout failed");

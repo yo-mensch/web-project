@@ -18,11 +18,9 @@ app.post('/login', async(req, res) => {
     }
 
     const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, { expiresIn: '15m' });
-    res.cookie('token', token, { httpOnly: true, domain: 'http://localhost:3000' });
-    res.json({ success: true });
+    res.json({ success: true, token });
 
   } catch (err) {
-    console.log(process.env.JWT_SECRET_KEY);
     console.log(err);
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
@@ -30,7 +28,6 @@ app.post('/login', async(req, res) => {
 
 app.post('/logout', (req, res) => {
   try {
-    res.clearCookie('token');
     res.sendStatus(200);
   } catch (error) {
     console.log(error);
