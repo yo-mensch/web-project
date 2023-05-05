@@ -1,0 +1,15 @@
+.button-group {
+    /* display: inline-block; */
+    /* display: inline-flex; */
+    display: block;
+    margin-top: 3%;
+    padding-left: 24px;
+    padding-right: 24px;
+    align-items: stretch;
+    /* justify-content: space-between; */
+}
+
+.new-bookmark-button {
+    background-color: #fff;
+    margin-right: 20px;
+}

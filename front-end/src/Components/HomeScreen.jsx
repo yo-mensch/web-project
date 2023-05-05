@@ -1,6 +1,8 @@
 import React from "react";
 import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import BookmarksGrid from "./BookmarksGrid";
+import './styles/HomeScreen.css'
 
 function HomeScreen({onLogout}){
     const handleLogout = async(e) => {
@@ -18,13 +20,18 @@ function HomeScreen({onLogout}){
     }
 
     return(
-        <>
+        <Container className="home-screen-content">
             <h1>Bookmarker</h1>
             <BookmarksGrid/>
-            <Button variant="contained" type="submit" onClick={handleLogout}>
-                Log out
-            </Button>
-        </>
+            <div className="button-group">
+                <Button variant="outlined" className="new-bookmark-button">
+                    Add a new bookmark
+                </Button>
+                <Button variant="contained" type="submit" className="logout-button" onClick={handleLogout}>
+                    Log out
+                </Button>
+            </div>
+        </Container>
     );
 }
 
