@@ -6,6 +6,7 @@ function HomeScreen({onLogout}){
     const handleLogout = async(e) => {
         e.preventDefault();
         try {
+            localStorage.removeItem("token");
             const response = await fetch('http://localhost:3003/users/logout', {
             method: 'POST'
             })
