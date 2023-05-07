@@ -12,18 +12,20 @@ function BookmarkCard({bookmark}) {
       <Card variant="outlined">
       <CardContent>
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        Bookmark category
+        {bookmark.category}
       </Typography>
       <Typography sx={{ fontSize: 18 }} color="text.primary">
-        Bookmark title
+        {bookmark.title}
       </Typography>
       <Typography variant="body2">
-        Bookmark description
+        {bookmark.description}
       </Typography>
     </CardContent>
     <CardActions>
       <Button size="small">Edit bookmark</Button>
-      <Button size="small">Visit URL</Button>
+      <a href={bookmark.url}>
+        <Button size="small">Visit URL</Button>
+      </a>
     </CardActions>  
       </Card>
     </Box>

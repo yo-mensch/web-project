@@ -6,7 +6,6 @@ import BookmarksGrid from "./BookmarksGrid";
 import './styles/HomeScreen.css';
 
 function HomeScreen({onLogout}){
-    const token = localStorage.getItem('token');
     const [userBookmarks, setUserBookmarks] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
@@ -52,7 +51,7 @@ function HomeScreen({onLogout}){
     return(
         <Container>
             <h1>Bookmarker</h1>
-            <BookmarksGrid/>
+            <BookmarksGrid bookmarks={userBookmarks}/>
             <div className="button-group">
                 <Button variant="outlined" className="new-bookmark-button">
                     Add a new bookmark
