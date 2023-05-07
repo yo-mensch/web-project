@@ -20,7 +20,7 @@ function HomeScreen({onLogout}){
     }
 
     return(
-        <Container className="home-screen-content">
+        <Container>
             <h1>Bookmarker</h1>
             <BookmarksGrid/>
             <div className="button-group">
