@@ -4,21 +4,14 @@ import Container from '@mui/material/Container';
 import BookmarkCard from "./BookmarkCard";
 import './styles/BookmarksGrid.css'
 
-function BookmarksGrid() {
+function BookmarksGrid({bookmarks}) {
   return (
     <Grid container spacing={2} className="bookmarks-grid" direction="row" alignItems="center">
-      <Grid item xs={8} sm={6} md={4}>
-        <BookmarkCard/>
-      </Grid>
-      <Grid item xs={8} sm={6} md={4}>
-        <BookmarkCard />
-      </Grid>
-      <Grid item xs={8} sm={6} md={4}>
-        <BookmarkCard />
-      </Grid>
-      <Grid item xs={8} sm={6} md={4}>
-        <BookmarkCard />
-      </Grid>
+      {bookmarks.map(bookmark => (
+        <Grid key={bookmark._id} item xs={8} sm={6} md={4}>
+          <BookmarkCard bookmark={bookmark}/>
+        </Grid>
+      ))}
     </Grid>
   );
 }
