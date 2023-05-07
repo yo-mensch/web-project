@@ -1,0 +1,45 @@
+.container{
+    display: flex;
+}
+
+.form-input * {
+    display: flex;
+}
+
+.form-input {
+    margin-top: 1%;
+    margin-bottom: 2%
+}
+
+.input-field {
+    background-color: #fff;
+    width: 450px;
+}
+
+.login-form-box{
+    width: fit-content;
+    display: inline-block;
+    border-radius: 10px;
+    justify-content: center;
+    background-color: #EBF2FF;
+    padding: 5%;
+    margin-top: 5%;
+}
+
+.login-button{
+    width: 450px;
+}
+
+@media screen and (max-width: 600px) {
+    .login-button {
+        width: 350px;
+    }
+
+    .input-field{
+        width: 350px;
+    }
+
+    .login-form-box{
+        padding: 7%;
+    }
+  }
