@@ -1,14 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 const { Bookmark } = require('../db/bookmarkSchema');
+const User = require('../db/userSchema');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', async (req, res) => {
+app.get('/', authenticateToken, async (req, res) => {
     try {
-      const bookmarks = await Bookmark.find({ userId: req.query.userId });
+      console.log(req);
+      const bookmarks = await Bookmark.find({ userId: req.userId });
       res.json(bookmarks);
     } catch (err) {
       console.log(err);
@@ -46,6 +49,21 @@ app.delete('/:id', async (req, res) => {
       res.status(500).send('Internal Server Error');
     }
 });
-  
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.sendStatus(401);
+  }
+  jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
+    if (err) {
+      return res.sendStatus(403);
+    }
+    req.userId = decoded.userId;
+    console.log(decoded.userId);
+    next();
+  });
+}
 
 module.exports = app;
