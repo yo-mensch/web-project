@@ -1,0 +1,11 @@
+.button-group {
+    margin-top: 3%;
+    padding-left: 24px;
+    padding-right: 24px;
+    align-items: stretch;
+}
+
+.new-bookmark-button {
+    background-color: #fff !important;
+    margin-right: 20px;
+}
