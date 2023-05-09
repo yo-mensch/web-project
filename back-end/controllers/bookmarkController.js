@@ -10,8 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', authenticateToken, async (req, res) => {
     try {
-      console.log(req);
-      const bookmarks = await Bookmark.find({ userId: req.userId });
+      const bookmarks = await Bookmark.find({ userId: req.body.userId });
       res.json(bookmarks);
     } catch (err) {
       console.log(err);
@@ -19,7 +18,7 @@ app.get('/', authenticateToken, async (req, res) => {
     }
 });
   
-app.post('/', async (req, res) => {
+app.post('/',authenticateToken, async (req, res) => {
     try {
       const bookmark = new Bookmark(req.body);
       const savedBookmark = await bookmark.save();
@@ -60,8 +59,7 @@ function authenticateToken(req, res, next) {
     if (err) {
       return res.sendStatus(403);
     }
-    req.userId = decoded.userId;
-    console.log(decoded.userId);
+    req.body.userId = decoded.userId;
     next();
   });
 }

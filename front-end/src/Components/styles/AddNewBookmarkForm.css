@@ -1,0 +1,12 @@
+.form-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.submit-button{
+    width: 450px;
+    background-color: darkblue;
+}
+
+
