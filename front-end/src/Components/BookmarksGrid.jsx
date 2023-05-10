@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import Container from '@mui/material/Container';
 import BookmarkCard from "./BookmarkCard";
 import './styles/BookmarksGrid.css'
 

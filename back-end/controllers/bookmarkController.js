@@ -10,8 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', authenticateToken, async (req, res) => {
     try {
-      console.log(req);
-      const bookmarks = await Bookmark.find({ userId: req.userId });
+      const bookmarks = await Bookmark.find({ userId: req.body.userId });
       res.json(bookmarks);
     } catch (err) {
       console.log(err);
@@ -19,7 +18,7 @@ app.get('/', authenticateToken, async (req, res) => {
     }
 });
   
-app.post('/', async (req, res) => {
+app.post('/',authenticateToken, async (req, res) => {
     try {
       const bookmark = new Bookmark(req.body);
       const savedBookmark = await bookmark.save();
@@ -30,7 +29,7 @@ app.post('/', async (req, res) => {
     }
 });
   
-app.put('/:id', async (req, res) => {
+app.put('/:_id',authenticateToken, async (req, res) => {
     try {
       const updatedBookmark = await Bookmark.findByIdAndUpdate(req.params._id, req.body, { new: true });
       res.json(updatedBookmark);
@@ -40,9 +39,10 @@ app.put('/:id', async (req, res) => {
     }
 });
   
-app.delete('/:id', async (req, res) => {
+app.delete('/:_id',authenticateToken, async (req, res) => {
     try {
-      const deletedBookmark = await Bookmark.findByIdAndRemove(req.params._id);
+      const query = { _id: req.params._id}
+      const deletedBookmark = await Bookmark.deleteOne(query);
       res.json(deletedBookmark);
     } catch (err) {
       console.log(err);
@@ -60,8 +60,7 @@ function authenticateToken(req, res, next) {
     if (err) {
       return res.sendStatus(403);
     }
-    req.userId = decoded.userId;
-    console.log(decoded.userId);
+    req.body.userId = decoded.userId;
     next();
   });
 }
