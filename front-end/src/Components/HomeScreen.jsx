@@ -3,40 +3,41 @@ import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import BookmarksGrid from "./BookmarksGrid";
-import Modal from "react-bootstrap/Modal";
 import "./styles/HomeScreen.css";
 import AddNewBookmarkForm from "./AddNewBookmarkForm";
 
 function HomeScreen({ onLogout }) {
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [newBookmarkBtnText, setNewBookmarkBtnText] = useState("Add new bookmark");
   const [userBookmarks, setUserBookmarks] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert(
-          "There is not token, or token is not valid anymore. Please refresh and login again"
-        );
+  const fetchData = async () => {
+    setLoading(true);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert(
+        "There is not token, or token is not valid anymore. Please refresh and login again"
+      );
+    }
+    try {
+      const response = await fetch("http://localhost:3003/bookmarks/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        method: "GET",
+      });
+      if (!response.ok) {
+        alert("response aint okey");
       }
-      try {
-        const response = await fetch("http://localhost:3003/bookmarks/", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          method: "GET",
-        });
-        if (!response.ok) {
-          alert("response aint okey");
-        }
-        const responseData = await response.json();
-        setUserBookmarks(responseData);
-        console.log(responseData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      const responseData = await response.json();
+      setUserBookmarks(responseData);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -70,7 +71,7 @@ function HomeScreen({ onLogout }) {
     <>
       <Container>
         <h1>Bookmarker</h1>
-        <BookmarksGrid bookmarks={userBookmarks} />
+        {loading ? <h3>Loading...</h3> : <BookmarksGrid bookmarks={userBookmarks} />}
         <div className="button-group">
           <Button
             variant="outlined"
@@ -89,7 +90,7 @@ function HomeScreen({ onLogout }) {
           </Button>
         </div>
       </Container>
-      { open ? <AddNewBookmarkForm handleClose={handleClose}/> : <></>}
+      { open ? <AddNewBookmarkForm handleClose={handleClose} fetchData={fetchData}/> : <></>}
     </>
   );
 }

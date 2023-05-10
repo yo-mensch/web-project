@@ -1,12 +1,12 @@
 .form-container{
-    display: flex;
+    display: flex !important;
     justify-content: center;
     margin-top: 5%;
 }
 
 .submit-button{
     width: 450px;
-    background-color: darkblue;
+    background-color: darkblue !important;
 }
 
 

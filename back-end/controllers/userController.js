@@ -34,6 +34,24 @@ app.post('/logout', (req, res) => {
   }
 });
 
+app.get('/isLoggedIn', (req, res)=>{
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) {
+    return res.sendStatus(401);
+  }
+  try {
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded)=>{
+      if (err) {
+        return res.sendStatus(401);
+      }
+      else res.sendStatus(200);
+    })
+  } catch (error) {
+    res.sendStatus(401);
+  }
+})
+
 app.get('/', async (req, res) => {
   try {
     const users = await User.find({});

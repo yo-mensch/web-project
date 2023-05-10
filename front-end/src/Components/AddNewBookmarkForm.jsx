@@ -1,5 +1,4 @@
 import React from "react";
-import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Form } from "react-bootstrap";
 import Button from "@mui/material/Button";
@@ -7,14 +6,13 @@ import { TextField } from "@mui/material";
 import { useState } from "react";
 import './styles/AddNewBookmarkForm.css';
 
-function AddNewBookmarkForm({handleClose}) {
+function AddNewBookmarkForm({handleClose}, {fetchData}) {
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
 
   const handleSubmit = async(e) => {
-    e.preventDefault();
     const token = localStorage.getItem("token");
       if (!token) {
         alert(
@@ -31,6 +29,8 @@ function AddNewBookmarkForm({handleClose}) {
         body: JSON.stringify({url, title, description, category})
       });
       if(response.ok){
+        console.log("response is okey");
+        fetchData();
         handleClose();
       }
     } catch (error) {
