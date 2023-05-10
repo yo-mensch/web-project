@@ -29,7 +29,7 @@ app.post('/',authenticateToken, async (req, res) => {
     }
 });
   
-app.put('/:id', async (req, res) => {
+app.put('/:_id',authenticateToken, async (req, res) => {
     try {
       const updatedBookmark = await Bookmark.findByIdAndUpdate(req.params._id, req.body, { new: true });
       res.json(updatedBookmark);
@@ -39,9 +39,10 @@ app.put('/:id', async (req, res) => {
     }
 });
   
-app.delete('/:id', async (req, res) => {
+app.delete('/:_id',authenticateToken, async (req, res) => {
     try {
-      const deletedBookmark = await Bookmark.findByIdAndRemove(req.params._id);
+      const query = { _id: req.params._id}
+      const deletedBookmark = await Bookmark.deleteOne(query);
       res.json(deletedBookmark);
     } catch (err) {
       console.log(err);

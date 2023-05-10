@@ -7,12 +7,10 @@ import "./styles/HomeScreen.css";
 import AddNewBookmarkForm from "./AddNewBookmarkForm";
 
 function HomeScreen({ onLogout }) {
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [newBookmarkBtnText, setNewBookmarkBtnText] = useState("Add new bookmark");
   const [userBookmarks, setUserBookmarks] = useState([]);
   const fetchData = async () => {
-    setLoading(true);
     const token = localStorage.getItem("token");
     if (!token) {
       alert(
@@ -31,7 +29,6 @@ function HomeScreen({ onLogout }) {
       }
       const responseData = await response.json();
       setUserBookmarks(responseData);
-      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +68,7 @@ function HomeScreen({ onLogout }) {
     <>
       <Container>
         <h1>Bookmarker</h1>
-        {loading ? <h3>Loading...</h3> : <BookmarksGrid bookmarks={userBookmarks} />}
+        <BookmarksGrid bookmarks={userBookmarks}/>
         <div className="button-group">
           <Button
             variant="outlined"
