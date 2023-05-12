@@ -10,11 +10,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { pink } from '@mui/material/colors';
 
-function BookmarkCard({ bookmark }) {
+function BookmarkCard({ bookmark, handleEditOpen }) {
   const handleDelete = async () =>{
-    console.log(bookmark._id)
     const token = localStorage.getItem("token");
-    console.log(token);
   if (!token) {
     alert(
       "There is no token, or the token is not valid anymore. Please refresh and login again"
@@ -39,6 +37,10 @@ function BookmarkCard({ bookmark }) {
   }
   }
 
+  const handleEdit = () => {
+    handleEditOpen(bookmark);
+  }
+
   return (
     <Box sx={{ minWidth: 275 }}>
       <Card variant="outlined">
@@ -55,7 +57,7 @@ function BookmarkCard({ bookmark }) {
           <IconButton aria-label="delete" onClick={handleDelete}>
             <DeleteIcon sx={{ color: pink[500] }}/>
           </IconButton>
-          <IconButton aria-label="edit">
+          <IconButton aria-label="edit" onClick={() => handleEditOpen(bookmark)}>
             <EditIcon/>
           </IconButton>
           <a href={bookmark.url}>
