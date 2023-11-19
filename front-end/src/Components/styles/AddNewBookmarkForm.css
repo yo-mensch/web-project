@@ -1,0 +1,17 @@
+.form-container{
+    display: flex !important;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.submit-button{
+    width: 450px;
+    background-color: darkblue !important;
+}
+
+@media screen and (max-width: 600px) {
+    .submit-button{
+        width: 350px !important;
+    }
+}
+
